@@ -12,7 +12,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import consumingrestobjects.Jednostka;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
@@ -27,17 +32,17 @@ public class MyVaadinUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
 
+        LinkedHashMap getVariables = new LinkedHashMap();
+        getVariables.put("phrase", "iniczny");
 
-//        ObjectMapper xmlMapper = new ObjectMapper();
-//        xmlMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-//        LinkedHashMap getVariables = new LinkedHashMap();
-//        getVariables.put("phrase", "entralny");
         RestTemplate restTemplate = new RestTemplate();
-        Greeting gret = restTemplate.getForObject("http://localhost:8080/search?phrase=entralny", Greeting.class);
-        final String buduje = gret.getContent();
-//  ResponseEntity<ArrayList> pojUnit = restTemplate.getForEntity("http://localhost:8080/search?phrase=entralny", ArrayList.class);
+//        ResponseEntity<ArrayList> pojUnit = restTemplate.getForEntity("http://localhost:8080/search?phrase={phrase}", ArrayList.class, getVariables);
+        ArrayList pojUnit = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", ArrayList.class, getVariables);
+        final Jednostka temp = (Jednostka) pojUnit.get(0);
+                final String nameUnit =  temp. toString();
+
 //        final ArrayList<Jednostka> temp = pojUnit.getBody();
-//        final String nameUnit = pojUnit.getBody().getId().toString();
+//        final String nameUnit =  temp.toString();
 
         // temp.get(0).getId().toString()
 
@@ -47,7 +52,7 @@ public class MyVaadinUI extends UI {
         Button button = new Button("Click Me");
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label(buduje));
+                layout.addComponent(new Label(nameUnit));
             }
         });
         layout.addComponent(button);

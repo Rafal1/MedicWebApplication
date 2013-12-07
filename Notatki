@@ -1,0 +1,8 @@
+//        ObjectMapper xmlMapper = new ObjectMapper();
+//        xmlMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true); //w razie zwracania 1 paramsa moze sie przyda
+
+
+//RestTemplate restTemplate = new RestTemplate();
+//Greeting gret = restTemplate.getForObject("http://localhost:8080/search?phrase=entralny", Greeting.class);
+//final String buduje = gret.getContent();
+//dziala otrzymywanie obiektow
