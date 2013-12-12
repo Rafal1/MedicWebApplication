@@ -6,3 +6,13 @@
 //Greeting gret = restTemplate.getForObject("http://localhost:8080/search?phrase=entralny", Greeting.class);
 //final String buduje = gret.getContent();
 //dziala otrzymywanie obiektow
+
+
+if(parsingResponse != null){
+            Jednostka temp = parsingResponse.get(0);
+            nameUnitT =  temp.getEmail().toString();
+            temp = parsingResponse.get(1);
+            nameUnitT += temp.getNazwa().toString();
+        }
+        final String nameUnit = nameUnitT;
+        System.out.print(nameUnit);

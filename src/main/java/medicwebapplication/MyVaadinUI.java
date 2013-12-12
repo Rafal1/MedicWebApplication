@@ -2,6 +2,8 @@ package medicwebapplication;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import consumingrestobjects.Greeting;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -16,6 +18,7 @@ import consumingrestobjects.Jednostka;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -31,20 +34,22 @@ public class MyVaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        ArrayList<Jednostka> parsingResponse = null;
+        String nameUnitT = "";
 
         LinkedHashMap getVariables = new LinkedHashMap();
         getVariables.put("phrase", "iniczny");
 
         RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper mapper = new ObjectMapper();
 //        ResponseEntity<ArrayList> pojUnit = restTemplate.getForEntity("http://localhost:8080/search?phrase={phrase}", ArrayList.class, getVariables);
-        ArrayList pojUnit = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", ArrayList.class, getVariables);
-        final Jednostka temp = (Jednostka) pojUnit.get(0);
-                final String nameUnit =  temp. toString();
-
-//        final ArrayList<Jednostka> temp = pojUnit.getBody();
-//        final String nameUnit =  temp.toString();
-
-        // temp.get(0).getId().toString()
+        String unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, getVariables);
+        try {
+           parsingResponse = mapper.readValue(unitsString, new TypeReference<ArrayList<Jednostka>>() {});
+        } catch (IOException e) {
+            System.out.print("Parsing array error");
+            e.printStackTrace();
+        }
 
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
@@ -52,7 +57,7 @@ public class MyVaadinUI extends UI {
         Button button = new Button("Click Me");
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label(nameUnit));
+                layout.addComponent(new Label());
             }
         });
         layout.addComponent(button);
