@@ -16,3 +16,8 @@ if(parsingResponse != null){
         }
         final String nameUnit = nameUnitT;
         System.out.print(nameUnit);
+
+        Notice that the image is stored under
+        the  WEB-INFfolder, which is a special folder that is never accessible
+        using an URL, unlike the other folders of a web application. This is
+        a security solution - another would be to store the resource elsewhere in the file system.
