@@ -21,3 +21,12 @@ if(parsingResponse != null){
         the  WEB-INFfolder, which is a special folder that is never accessible
         using an URL, unlike the other folders of a web application. This is
         a security solution - another would be to store the resource elsewhere in the file system.
+
+        //        Panel panel = new Panel("Panel Containing a Label");
+        //        panel.setWidth("300px");
+
+        //z webservice
+        //        ArrayList<Jednostka> parsingResponse = SearchPhrase.getUnitsByPhrase("iniczny");
+        //        if (parsingResponse != null) {
+        //        layout.addComponent(new Label(parsingResponse.get(0).getNazwa().toString()));
+        //        }

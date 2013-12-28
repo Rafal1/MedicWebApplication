@@ -4,14 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import consumingrestobjects.Jednostka;
+import consumingrestservice.SearchPhrase;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.annotation.WebServlet;
@@ -30,39 +29,45 @@ public class MyVaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        ArrayList<Jednostka> parsingResponse = null;
-        String nameUnitT = "";
-
-        LinkedHashMap getVariables = new LinkedHashMap();
-        getVariables.put("phrase", "iniczny");
-
-        RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper mapper = new ObjectMapper();
-        String unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, getVariables);
-        try {
-            parsingResponse = mapper.readValue(unitsString, new TypeReference<ArrayList<Jednostka>>() {
-            });
-        } catch (IOException e) {
-            System.out.print("Parsing array error");
-            e.printStackTrace();
-        }
-
-        String tmp = null;
-        if(parsingResponse != null){
-             tmp = parsingResponse.get(0).getNazwa().toString();
-        }
-        final String x = tmp;
 
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
-        Button button = new Button("Click Me");
+
+        Label label = new Label("Wyszukiwarka Medic");
+        label.setWidth(null);
+        label.setStyleName("h1");
+        label.setHeight("1em");
+        label.setId("opisLabel");
+        layout.addComponent(label);
+        layout.setComponentAlignment(label, Alignment.TOP_CENTER);
+
+        Label spaceUnderLogo = new Label("");
+        spaceUnderLogo.setWidth( null );
+        spaceUnderLogo.setHeight ( "20px" );
+        layout.addComponent(spaceUnderLogo);
+
+        final HorizontalLayout searchTools = new HorizontalLayout();
+        layout.addComponent(searchTools);
+        layout.setComponentAlignment(searchTools, Alignment.MIDDLE_CENTER);
+
+        String phrase = "";
+        final ObjectProperty<String> property = new ObjectProperty<String>(phrase, String.class);
+        TextField searchFor = new TextField();
+        searchFor.setPropertyDataSource(property);
+        searchFor.setMaxLength(30);
+        searchFor.setWidth("35em");
+        searchTools.addComponent(searchFor);
+        searchTools.setComponentAlignment(searchFor, Alignment.TOP_CENTER);
+
+        Button button = new Button("Szukaj");
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label(x));
+                //todo new view (table with results
             }
         });
-        layout.addComponent(button);
+        searchTools.addComponent(button);
+        searchTools.setComponentAlignment(button, Alignment.TOP_CENTER);
     }
 
 }
