@@ -1,29 +1,23 @@
 package medicwebapplication;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import consumingrestobjects.Jednostka;
 import consumingrestservice.SearchPhrase;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.annotation.WebServlet;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
-@Theme("mytheme")
+@Theme("mytheme") //mytheme by default
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI {
+public class MainVaadinUI extends UI {
 
     @WebServlet(value = "/*", asyncSupported = true)
-    @VaadinServletConfiguration(productionMode = false, ui = MyVaadinUI.class)
+    @VaadinServletConfiguration(productionMode = false, ui = MainVaadinUI.class)
     public static class Servlet extends VaadinServlet {
     }
 
@@ -43,8 +37,8 @@ public class MyVaadinUI extends UI {
         layout.setComponentAlignment(label, Alignment.TOP_CENTER);
 
         Label spaceUnderLogo = new Label("");
-        spaceUnderLogo.setWidth( null );
-        spaceUnderLogo.setHeight ( "20px" );
+        spaceUnderLogo.setWidth(null);
+        spaceUnderLogo.setHeight("20px");
         layout.addComponent(spaceUnderLogo);
 
         final HorizontalLayout searchTools = new HorizontalLayout();
@@ -55,19 +49,30 @@ public class MyVaadinUI extends UI {
         final ObjectProperty<String> property = new ObjectProperty<String>(phrase, String.class);
         TextField searchFor = new TextField();
         searchFor.setPropertyDataSource(property);
-        searchFor.setMaxLength(30);
-        searchFor.setWidth("35em");
+        searchFor.setMaxLength(80);
+        searchFor.focus();
+        searchFor.setWidth("40em");
         searchTools.addComponent(searchFor);
         searchTools.setComponentAlignment(searchFor, Alignment.TOP_CENTER);
 
         Button button = new Button("Szukaj");
+        button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                //todo new view (table with results
+                if(property.getValue() != null && !property.getValue().isEmpty() ){ //todo it's proper behaviour for empty string?
+                    SearchPhrase.search(property.getValue(), layout);
+                }
             }
         });
         searchTools.addComponent(button);
         searchTools.setComponentAlignment(button, Alignment.TOP_CENTER);
+        //todo checkbox for "all word" mode
+
+        Label spaceUnderSearch = new Label("");
+        spaceUnderSearch.setWidth(null);
+        spaceUnderSearch.setHeight("40px");
+        layout.addComponent(spaceUnderSearch);
+
     }
 
 }
