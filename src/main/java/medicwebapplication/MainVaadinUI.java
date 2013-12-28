@@ -49,7 +49,7 @@ public class MainVaadinUI extends UI {
         final ObjectProperty<String> property = new ObjectProperty<String>(phrase, String.class);
         TextField searchFor = new TextField();
         searchFor.setPropertyDataSource(property);
-        searchFor.setMaxLength(80);
+        searchFor.setMaxLength(100);
         searchFor.focus();
         searchFor.setWidth("40em");
         searchTools.addComponent(searchFor);

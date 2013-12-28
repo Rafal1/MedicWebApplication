@@ -16,10 +16,9 @@ import java.util.ArrayList;
  * @author Rafal Zawadzki
  */
 public class SearchPhrase {
-    private ArrayList<Jednostka> currentResult = null;
 
     public static ArrayList<Jednostka> getUnitsByPhrase(String phrase) {
-        ArrayList<Jednostka> parsingResponse = null;
+        ArrayList<Jednostka> parsingResponse = new ArrayList<Jednostka>();
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
         String unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, phrase);

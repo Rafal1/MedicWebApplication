@@ -31,11 +31,22 @@ public class DataUnitCreate {
     }
 
     public static void makeTable(ArrayList<Jednostka> queryResult, VerticalLayout layout) {
-        //todo check old table remove if necessary
 
+        //todo check old LABEL remove if necessary
+        if (queryResult.size() == 1 &&
+                queryResult.get(0).getId() == null &&
+                queryResult.get(0).getNazwa().equals("Brak wyników")) {
+            Label noResultLabel = new Label("Brak wyników");
+            layout.addComponent(noResultLabel);
+            layout.setComponentAlignment(noResultLabel, Alignment.MIDDLE_CENTER);
+
+        }
+
+        //todo check old table remove if necessary
         Table table = new Table("Wyniki wyszukiwania");
         table.setSelectable(true);
         table.setImmediate(true);
+        //todo height of table's row
         table.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
