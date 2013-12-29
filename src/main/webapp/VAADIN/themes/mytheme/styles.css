@@ -7014,6 +7014,18 @@ font-size: xx-large;
 color:red;
 }
 
+#unitHeader
+{
+    font-size: inherit;
+    font-weight: bold;
+    height: 1em;
+}
+
+/*#unitDesc*/
+/*{*/
+    /*width: 400px;*/
+/*}*/
+
 /* Table rows contain three-row TextField components.
  doesn't work for now
  */

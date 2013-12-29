@@ -66,7 +66,6 @@ public class SearchPhrase {
             }
             Label noRes = new Label("Brak wyników");
             noRes.setWidth("80px");
-            noRes.getId();
             layout.addComponent(noRes);
             layout.setComponentAlignment(noRes, Alignment.TOP_CENTER);
             noResults = noRes;
