@@ -7014,18 +7014,16 @@ font-size: xx-large;
 color:red;
 }
 
-#unitHeader
-{
-    font-size: inherit;
-    font-weight: bold;
-    height: 1em;
+textarea.v-textarea {
+    font-size: large;
 }
 
-/*#unitDesc*/
-/*{*/
-    /*width: 400px;*/
-/*}*/
-
+.unitDesc
+{
+    font-size: large;
+    font-weight: bold;
+    color:dodgerblue;
+}
 /* Table rows contain three-row TextField components.
  doesn't work for now
  */

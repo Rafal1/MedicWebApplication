@@ -1,5 +1,6 @@
 package medicwebapplication;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import consumingrestobjects.Jednostka;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 /**
  * @author Rafal Zawadzki
  */
+@Theme("mytheme")
 public class UnitSubWindow extends Window {
     public UnitSubWindow(Object nr, ArrayList<Jednostka> queryResponse) {
         //todo if subWindow initialized - don't do it again (for the smae Unit)
@@ -32,13 +34,18 @@ public class UnitSubWindow extends Window {
         content.setMargin(true);
         setContent(content);
 
-        TextArea areaNazwa = new TextArea();
-        areaNazwa.setValue(unit.getNazwa());
-        areaNazwa.setWidth("600px");
-        areaNazwa.setId("unitHeader");
-        areaNazwa.setRows(2);
-        areaNazwa.isReadOnly();
-        content.addComponent(areaNazwa);
+//        TextArea areaNazwa = new TextArea();
+//        areaNazwa.setValue(unit.getNazwa());
+//        areaNazwa.setWidth("600px");
+//        areaNazwa.setRows(2);
+//        areaNazwa.setId("unitDesc");
+//        areaNazwa.setReadOnly(true);
+//        content.addComponent(areaNazwa);
+        Label unitName = new Label(unit.getNazwa());
+        unitName.setStyleName("unitDesc");
+        unitName.setId("unitDesc");
+        //todo bind CSS style
+        content.addComponent(unitName);
         Label breakSpHeader = new Label();
         breakSpHeader.setHeight("5px");
         content.addComponent(breakSpHeader);
@@ -63,6 +70,10 @@ public class UnitSubWindow extends Window {
         leftForm.addComponent(unitAdres);
         Label unitUpdateDate = new Label("Data aktualizacji: " + unit.getDataAktualizacji().toString());
         leftForm.addComponent(unitUpdateDate);
+        Label unitJednostkaNadrzednaInfo = new Label("Jednostka nadrzędna: ");
+        leftForm.addComponent(unitJednostkaNadrzednaInfo);
+        Label unitJednostkaNadrzedna = new Label(String.valueOf(unit.getNadrzednaJednostka()));
+        leftForm.addComponent(unitJednostkaNadrzedna);
         leftPanel.setContent(leftForm);
 
         Panel rightPanel = new Panel();
@@ -89,7 +100,7 @@ public class UnitSubWindow extends Window {
         rightPanel.setContent(rightForm);
 
         Label breakSpPanels = new Label();
-        breakSpPanels.setHeight("1em");
+        breakSpPanels.setHeight("5px");
         content.addComponent(breakSpPanels);
         Panel centerPanel = new Panel();
         centerPanel.setSizeUndefined();
@@ -99,17 +110,17 @@ public class UnitSubWindow extends Window {
         centerForm.setMargin(true);
 
         TextArea areaOpis = new TextArea("Opis: ");
-        areaNazwa.isReadOnly();
         areaOpis.setValue(unit.getOpis());
+        areaOpis.setReadOnly(true);
         areaOpis.setWidth("430px");
         areaOpis.setRows(6);
         centerForm.addComponent(areaOpis);
         Label breakSp = new Label();
-        breakSp.setHeight("1em");
+        breakSp.setHeight("5px");
         centerForm.addComponent(breakSp);
         TextArea areaDodOpis = new TextArea("Dodatkowe: ");
-        areaDodOpis.isReadOnly();
         areaDodOpis.setValue(unit.getInfoDodatkowe());
+        areaDodOpis.setReadOnly(true);
         areaDodOpis.setWidth("200px");
         areaDodOpis.setRows(3);
         centerForm.addComponent(areaDodOpis);
