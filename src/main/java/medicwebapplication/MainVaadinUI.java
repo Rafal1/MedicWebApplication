@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 @Theme("mytheme") //mytheme by default
 @SuppressWarnings("serial")
 public class MainVaadinUI extends UI {
+    private static VerticalLayout fullLayout = null;
 
     @WebServlet(value = "/*", asyncSupported = true)
     @VaadinServletConfiguration(productionMode = false, ui = MainVaadinUI.class)
@@ -26,6 +27,7 @@ public class MainVaadinUI extends UI {
 
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
+        layout.setWidth("1366px");
         setContent(layout);
 
         Label label = new Label("Wyszukiwarka Medic");
@@ -59,7 +61,7 @@ public class MainVaadinUI extends UI {
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                if(property.getValue() != null && !property.getValue().isEmpty() ){ //todo it's proper behaviour for empty string?
+                if(property.getValue() != null && !property.getValue().isEmpty() ){ //todo is it a proper behaviour for empty string?
                     SearchPhrase.search(property.getValue(), layout);
                 }
             }
@@ -73,6 +75,14 @@ public class MainVaadinUI extends UI {
         spaceUnderSearch.setHeight("40px");
         layout.addComponent(spaceUnderSearch);
 
+    }
+
+    public static VerticalLayout getFullLayout() {
+        return fullLayout;
+    }
+
+    public static void setFullLayout(VerticalLayout fullLayout) {
+        MainVaadinUI.fullLayout = fullLayout;
     }
 
 }

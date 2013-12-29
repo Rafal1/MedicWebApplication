@@ -6,47 +6,43 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import consumingrestobjects.Jednostka;
+import consumingrestservice.SearchPhrase;
 
 import java.util.ArrayList;
 
 /**
  * @author Rafal Zawadzki
  */
-public class DataUnitCreate {
+public class UnitDataTableCreate {
 
-    public static boolean deleteTable() {
-        return false;
+    private static Table currentResultsTable = null;
+
+    public static boolean deleteTable(VerticalLayout layout) {
+        layout.removeComponent(currentResultsTable);
+        currentResultsTable = null;
+        MainVaadinUI.setFullLayout(layout);
+        return true;
     }
 
     public static boolean checkIfExistsTable() {
-        return false;
-    }
-
-    public static boolean checkNumberOfPages() {
-        return false;
-    }
-
-    public static boolean displayPages() {
-        return false;
+        if (currentResultsTable != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void makeTable(ArrayList<Jednostka> queryResult, VerticalLayout layout) {
-
-        //todo check old LABEL remove if necessary
-        if (queryResult.size() == 1 &&
-                queryResult.get(0).getId() == null &&
-                queryResult.get(0).getNazwa().equals("Brak wyników")) {
-            Label noResultLabel = new Label("Brak wyników");
-            layout.addComponent(noResultLabel);
-            layout.setComponentAlignment(noResultLabel, Alignment.MIDDLE_CENTER);
-
+        if (checkIfExistsTable()) {
+            deleteTable(layout);
         }
-
-        //todo check old table remove if necessary
+        if (SearchPhrase.checkIfNoResultExists()) {
+            SearchPhrase.deleteNoResult(layout);
+        }
         Table table = new Table("Wyniki wyszukiwania");
         table.setSelectable(true);
         table.setImmediate(true);
-        //todo height of table's row
+        //todo trivial: height of table's row
         table.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
@@ -55,11 +51,12 @@ public class DataUnitCreate {
             }
         });
         table.addContainerProperty("Nazwa", String.class, null);
-        //todo return no result service
         for (Integer i = 0; i < queryResult.size(); i++) {
-            table.addItem(new Object[]{queryResult.get(i).getNazwa()}, i);  //todo nazwa jednostki nadrzednej
+            table.addItem(new Object[]{queryResult.get(i).getNazwa()}, i);  //todo minor: nazwa jednostki nadrzednej
         }
         layout.addComponent(table);
         layout.setComponentAlignment(table, Alignment.MIDDLE_CENTER);
+        currentResultsTable = table;
     }
+
 }
