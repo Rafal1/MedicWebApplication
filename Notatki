@@ -30,3 +30,9 @@ if(parsingResponse != null){
         //        if (parsingResponse != null) {
         //        layout.addComponent(new Label(parsingResponse.get(0).getNazwa().toString()));
         //        }
+
+nazwe out                        UI.getCurrent().addWindow(sub);
+
+nie sypie nullem przy odznaczaniu, ale problem z ponownym wywoływniem okna        table.setNullSelectionAllowed(false);
+
+managing SubWindow (correct opening the component)

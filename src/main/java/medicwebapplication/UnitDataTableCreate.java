@@ -1,10 +1,7 @@
 package medicwebapplication;
 
 import com.vaadin.data.Property;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import consumingrestobjects.Jednostka;
 import consumingrestservice.SearchPhrase;
 
@@ -32,22 +29,25 @@ public class UnitDataTableCreate {
         }
     }
 
-    public static void makeTable(ArrayList<Jednostka> queryResult, VerticalLayout layout) {
+    public static void makeTable(final ArrayList<Jednostka> queryResult, VerticalLayout layout) { //todo veryfing if final right choice
         if (checkIfExistsTable()) {
             deleteTable(layout);
         }
         if (SearchPhrase.checkIfNoResultExists()) {
             SearchPhrase.deleteNoResult(layout);
         }
-        Table table = new Table("Wyniki wyszukiwania");
+        //todo info koniec wyszukiwania
+        //current.setValue("Selected: " + table.getValue()); -184
+
+        final Table table = new Table("Wyniki wyszukiwania");
         table.setSelectable(true);
         table.setImmediate(true);
         //todo trivial: height of table's row
         table.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                //todo induce window
-                System.out.println("Okno jednostki");
+                UnitSubWindow sub = new UnitSubWindow(table.getValue(), queryResult);
+                //todo how many windows with the same unit can invoke? HashMap?
             }
         });
         table.addContainerProperty("Nazwa", String.class, null);
