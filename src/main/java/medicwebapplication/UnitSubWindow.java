@@ -32,7 +32,7 @@ public class UnitSubWindow extends Window {
         Adres addr = SearchPhrase.getAdresByID(unit.getId());
         Jednostka overUnit = SearchPhrase.getJednostkaByID(unit.getId());
         String overUnitName = "Brak jednostki nadrzędnej";
-        if (overUnit != null) {
+        if (overUnit.getNadrzednaJednostka() != 0) { //there is no row in database's table with 0 index
             overUnitName = overUnit.getNazwa();
         }
         setWidth("640px");
@@ -86,7 +86,7 @@ public class UnitSubWindow extends Window {
         leftForm.addComponent(unitUpdateDate);
         Label unitJednostkaNadrzednaInfo = new Label("Jednostka nadrzędna: ");
         leftForm.addComponent(unitJednostkaNadrzednaInfo);
-        Label unitJednostkaNadrzedna = new Label(overUnitName); //todo link to see datails
+        Label unitJednostkaNadrzedna = new Label(overUnitName); //todo link to see datails, AND TEST
         leftForm.addComponent(unitJednostkaNadrzedna);
         leftPanel.setContent(leftForm);
 
@@ -132,12 +132,21 @@ public class UnitSubWindow extends Window {
         Label breakSp = new Label();
         breakSp.setHeight("5px");
         centerForm.addComponent(breakSp);
+
+        HorizontalLayout bottom = new HorizontalLayout();
+        centerForm.addComponent(bottom);
         TextArea areaDodOpis = new TextArea("Dodatkowe: ");
         areaDodOpis.setValue(unit.getInfoDodatkowe());
         areaDodOpis.setReadOnly(true);
-        areaDodOpis.setWidth("200px");
+        areaDodOpis.setWidth("300px");
         areaDodOpis.setRows(3);
-        centerForm.addComponent(areaDodOpis);
+        bottom.addComponent(areaDodOpis);
+        TextArea areaSpec = new TextArea("Specjalizacje: ");
+        areaSpec.setValue(unit.getSpecjalizacja1()+ "\n" + unit.getSpecjalizacja2() + "\n" + unit.getSpecjalizacja3());
+        areaSpec.setReadOnly(true);
+        areaSpec.setWidth("100px");
+        areaSpec.setRows(3);
+        bottom.addComponent(areaSpec);
         centerPanel.setContent(centerForm);
 
     }

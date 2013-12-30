@@ -52,28 +52,17 @@ public class SearchPhrase {
     }
 
     public static Adres getAdresByID(Integer adresID) {
-        //todo test it
-        Adres resAd = null;
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
-        String stream = restTemplate.getForObject("http://localhost:8080/address?adresID={adresID}", String.class, adresID);
-        try {
-            resAd = mapper.readValue(stream, new TypeReference<Adres>() {
-            });
-        } catch (IOException e) {
-            System.out.print("Parsing array error");
-            e.printStackTrace();
-        }
-        return resAd;
+        Adres stream = restTemplate.getForObject("http://localhost:8080/address?adresID={adresID}", Adres.class, adresID);
+        return stream;
     }
 
     public static Jednostka getJednostkaByID(Integer unitID) {
-        //todo test it
-        Jednostka resJe = null;
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
         Jednostka stream = restTemplate.getForObject("http://localhost:8080/overunit?unitID={unitID}", Jednostka.class, unitID);
-        return resJe;
+        return stream;
     }
 
     //method done because there is no way to give return value from listener (inner class) in MainVaadinUI
