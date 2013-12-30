@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import consumingrestobjects.Adres;
 import consumingrestobjects.Jednostka;
 import medicwebapplication.MainVaadinUI;
 import medicwebapplication.UnitDataTableCreate;
@@ -48,6 +49,31 @@ public class SearchPhrase {
             e.printStackTrace();
         }
         return parsingResponse;
+    }
+
+    public static Adres getAdresByID(Integer adresID) {
+        //todo test it
+        Adres resAd = null;
+        RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper mapper = new ObjectMapper();
+        String stream = restTemplate.getForObject("http://localhost:8080/address?adresID={adresID}", String.class, adresID);
+        try {
+            resAd = mapper.readValue(stream, new TypeReference<Adres>() {
+            });
+        } catch (IOException e) {
+            System.out.print("Parsing array error");
+            e.printStackTrace();
+        }
+        return resAd;
+    }
+
+    public static Jednostka getJednostkaByID(Integer unitID) {
+        //todo test it
+        Jednostka resJe = null;
+        RestTemplate restTemplate = new RestTemplate();
+        ObjectMapper mapper = new ObjectMapper();
+        Jednostka stream = restTemplate.getForObject("http://localhost:8080/overunit?unitID={unitID}", Jednostka.class, unitID);
+        return resJe;
     }
 
     //method done because there is no way to give return value from listener (inner class) in MainVaadinUI

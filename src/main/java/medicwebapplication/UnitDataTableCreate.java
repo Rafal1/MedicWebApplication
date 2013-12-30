@@ -47,7 +47,7 @@ public class UnitDataTableCreate {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 UnitSubWindow sub = new UnitSubWindow(table.getValue(), queryResult);
-                //todo how many windows with the same unit can invoke? HashMap?
+                //todo how many windows with the same unit can invoke? HashMap to remember?
             }
         });
         table.addContainerProperty("Nazwa", String.class, null);

@@ -3,7 +3,9 @@ package medicwebapplication;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
+import consumingrestobjects.Adres;
 import consumingrestobjects.Jednostka;
+import consumingrestservice.SearchPhrase;
 
 import java.util.ArrayList;
 
@@ -26,25 +28,25 @@ public class UnitSubWindow extends Window {
     }
 
     private void composeUnitElements(Integer nr, ArrayList<Jednostka> queryResponse) {
-        Jednostka unit = queryResponse.get(nr);
-        setWidth("680px");
+        Jednostka unit = queryResponse.get(nr); //nr - like array's subscript
+        Adres addr = SearchPhrase.getAdresByID(unit.getId());
+        Jednostka overUnit = SearchPhrase.getJednostkaByID(unit.getId());
+        String overUnitName = "Brak jednostki nadrzędnej";
+        if (overUnit != null) {
+            overUnitName = overUnit.getNazwa();
+        }
+        setWidth("640px");
 
         VerticalLayout content = new VerticalLayout();
         content.setWidth("600px");
         content.setMargin(true);
         setContent(content);
 
-//        TextArea areaNazwa = new TextArea();
-//        areaNazwa.setValue(unit.getNazwa());
-//        areaNazwa.setWidth("600px");
-//        areaNazwa.setRows(2);
-//        areaNazwa.setId("unitDesc");
-//        areaNazwa.setReadOnly(true);
-//        content.addComponent(areaNazwa);
+        //todo bind CSS style
         Label unitName = new Label(unit.getNazwa());
         unitName.setStyleName("unitDesc");
         unitName.setId("unitDesc");
-        //todo bind CSS style
+        unitName.setHeight("2em");
         content.addComponent(unitName);
         Label breakSpHeader = new Label();
         breakSpHeader.setHeight("5px");
@@ -66,13 +68,25 @@ public class UnitSubWindow extends Window {
         leftForm.setSizeUndefined();
         leftForm.setMargin(true);
 
-        Label unitAdres = new Label("Brak obsługi adresu");
-        leftForm.addComponent(unitAdres);
+        //todo PL/EN nazewnictwo
+        Label unitUl = new Label("Ul: " + addr.getUlica());
+        leftForm.addComponent(unitUl);
+        Label unitNrDomu = new Label("Nr domu: " + addr.getNrDomu());
+        leftForm.addComponent(unitNrDomu);
+        Label unitMiasto = new Label("Miasto: " + addr.getMiasto());
+        leftForm.addComponent(unitMiasto);
+        Label unitKodPocztowy = new Label("Kod: " + addr.getKodPocztowy());
+        leftForm.addComponent(unitKodPocztowy);
+        Label unitDopisekInfo = new Label("Dopisek: ");
+        leftForm.addComponent(unitDopisekInfo);
+        Label unitDopisek = new Label(addr.getDopisek());
+        leftForm.addComponent(unitDopisek);
+
         Label unitUpdateDate = new Label("Data aktualizacji: " + unit.getDataAktualizacji().toString());
         leftForm.addComponent(unitUpdateDate);
         Label unitJednostkaNadrzednaInfo = new Label("Jednostka nadrzędna: ");
         leftForm.addComponent(unitJednostkaNadrzednaInfo);
-        Label unitJednostkaNadrzedna = new Label(String.valueOf(unit.getNadrzednaJednostka()));
+        Label unitJednostkaNadrzedna = new Label(overUnitName); //todo link to see datails
         leftForm.addComponent(unitJednostkaNadrzedna);
         leftPanel.setContent(leftForm);
 
