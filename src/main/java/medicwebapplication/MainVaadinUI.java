@@ -2,6 +2,7 @@ package medicwebapplication;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.VaadinRequest;
@@ -47,6 +48,13 @@ public class MainVaadinUI extends UI {
         layout.addComponent(searchTools);
         layout.setComponentAlignment(searchTools, Alignment.MIDDLE_CENTER);
 
+        final CheckBox allWord = new CheckBox("całe słowa");
+        searchTools.addComponent(allWord);
+        allWord.addValueChangeListener(new Property.ValueChangeListener() {
+            public void valueChange(Property.ValueChangeEvent event) {
+                SearchPhrase.setWholeWord(allWord.getValue());
+            }
+        });
         String phrase = "";
         final ObjectProperty<String> property = new ObjectProperty<String>(phrase, String.class);
         TextField searchFor = new TextField();
@@ -61,7 +69,7 @@ public class MainVaadinUI extends UI {
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                if(property.getValue() != null && !property.getValue().isEmpty() ){ //todo is it a proper behaviour for empty string?
+                if (property.getValue() != null && !property.getValue().isEmpty()) { //todo is it a proper behaviour for empty string?
                     SearchPhrase.search(property.getValue(), layout);
                 }
             }

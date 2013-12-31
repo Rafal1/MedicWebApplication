@@ -142,7 +142,7 @@ public class UnitSubWindow extends Window {
         areaDodOpis.setRows(3);
         bottom.addComponent(areaDodOpis);
         TextArea areaSpec = new TextArea("Specjalizacje: ");
-        areaSpec.setValue(unit.getSpecjalizacja1()+ "\n" + unit.getSpecjalizacja2() + "\n" + unit.getSpecjalizacja3());
+        areaSpec.setValue(unit.getSpecjalizacja1() + "\n" + unit.getSpecjalizacja2() + "\n" + unit.getSpecjalizacja3());
         areaSpec.setReadOnly(true);
         areaSpec.setWidth("100px");
         areaSpec.setRows(3);

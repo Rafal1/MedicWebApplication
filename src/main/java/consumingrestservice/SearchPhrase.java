@@ -9,6 +9,7 @@ import consumingrestobjects.Adres;
 import consumingrestobjects.Jednostka;
 import medicwebapplication.MainVaadinUI;
 import medicwebapplication.UnitDataTableCreate;
+import medicwebapplication.Validation;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -19,6 +20,15 @@ import java.util.ArrayList;
  */
 public class SearchPhrase {
     private static Label noResults = null;
+    private static boolean wholeWord = false;
+
+    public static boolean isWholeWord() {
+        return wholeWord;
+    }
+
+    public static void setWholeWord(boolean wholeWord) {
+        SearchPhrase.wholeWord = wholeWord;
+    }
 
     public static boolean checkIfNoResultExists() {
         if (noResults != null) {
@@ -35,12 +45,16 @@ public class SearchPhrase {
         return true;
     }
 
-
     public static ArrayList<Jednostka> getUnitsByPhrase(String phrase) {
         ArrayList<Jednostka> parsingResponse = new ArrayList<Jednostka>();
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
-        String unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, phrase);
+        String unitsString;
+        if (wholeWord) {
+            unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}&wholeWord={wholeWord}", String.class, phrase, wholeWord);
+        } else {
+            unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, phrase);
+        }
         try {
             parsingResponse = mapper.readValue(unitsString, new TypeReference<ArrayList<Jednostka>>() {
             });
@@ -69,23 +83,38 @@ public class SearchPhrase {
     //todo trivial: try to generalize VerticalLayout
     //todo minor: there are better places, move to view
     public static void search(String phrase, VerticalLayout layout) {
+        if (UnitDataTableCreate.checkIfExistsTable()) {
+            UnitDataTableCreate.deleteTable(layout);
+        }
+        Boolean val = Validation.validate(phrase);
+        if (!val) {
+            if (!checkIfNoResultExists()) {
+                labelResultMessage(layout);
+                //todo maybe special message
+            }
+            return;
+        }
         ArrayList<Jednostka> parsingResponse = SearchPhrase.getUnitsByPhrase(phrase);
         if (parsingResponse.size() == 1 &&
                 parsingResponse.get(0).getId() == null &&
                 parsingResponse.get(0).getNazwa().equals("Brak Wynikow")) {
-            if (checkIfNoResultExists()) {
-                deleteNoResult(layout);
+            if (!checkIfNoResultExists()) {
+                labelResultMessage(layout);
             }
-            if (UnitDataTableCreate.checkIfExistsTable()) {
-                UnitDataTableCreate.deleteTable(layout);
-            }
-            Label noRes = new Label("Brak wyników");
-            noRes.setWidth("80px");
-            layout.addComponent(noRes);
-            layout.setComponentAlignment(noRes, Alignment.TOP_CENTER);
-            noResults = noRes;
             return;
+        }
+        if (checkIfNoResultExists()) {
+            deleteNoResult(layout);
         }
         UnitDataTableCreate.makeTable(parsingResponse, layout);
     }
+
+    private static void labelResultMessage(VerticalLayout layout) {
+        Label noRes = new Label("Brak wyników");
+        noRes.setWidth("120px");
+        layout.addComponent(noRes);
+        layout.setComponentAlignment(noRes, Alignment.TOP_CENTER);
+        noResults = noRes;
+    }
+
 }
