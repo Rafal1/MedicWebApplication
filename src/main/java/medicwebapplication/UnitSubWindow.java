@@ -35,10 +35,10 @@ public class UnitSubWindow extends Window {
         if (overUnit.getNadrzednaJednostka() != 0) { //there is no row in database's table with 0 index
             overUnitName = overUnit.getNazwa();
         }
-        setWidth("640px");
+        setWidth("680px");
 
         VerticalLayout content = new VerticalLayout();
-        content.setWidth("600px");
+        content.setWidth("640px");
         content.setMargin(true);
         setContent(content);
 
@@ -71,7 +71,7 @@ public class UnitSubWindow extends Window {
         //todo PL/EN nazewnictwo
         Label unitUl = new Label("Ul: " + addr.getUlica());
         leftForm.addComponent(unitUl);
-        Label unitNrDomu = new Label("Nr domu: " + addr.getNrDomu());
+        Label unitNrDomu = new Label("Nr budynku: " + addr.getNrDomu());
         leftForm.addComponent(unitNrDomu);
         Label unitMiasto = new Label("Miasto: " + addr.getMiasto());
         leftForm.addComponent(unitMiasto);
@@ -142,9 +142,9 @@ public class UnitSubWindow extends Window {
         areaDodOpis.setRows(3);
         bottom.addComponent(areaDodOpis);
         TextArea areaSpec = new TextArea("Specjalizacje: ");
-        areaSpec.setValue(unit.getSpecjalizacja1() + "\n" + unit.getSpecjalizacja2() + "\n" + unit.getSpecjalizacja3());
+        areaSpec.setValue(unit.getSpecjalizacja1() + "\n\n" + unit.getSpecjalizacja2() + "\n\n" + unit.getSpecjalizacja3());
         areaSpec.setReadOnly(true);
-        areaSpec.setWidth("100px");
+        areaSpec.setWidth("130px");
         areaSpec.setRows(3);
         bottom.addComponent(areaSpec);
         centerPanel.setContent(centerForm);

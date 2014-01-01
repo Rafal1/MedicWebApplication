@@ -35,5 +35,4 @@ public class SearchPhraseTest {
         String exp = "null";
         assertEquals(exp, resName);
     }
-    //todo z nadrzedna jednostka
 }
