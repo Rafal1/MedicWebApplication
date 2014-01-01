@@ -54,6 +54,7 @@ public class SearchPhrase {
             unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}&wholeWord={wholeWord}", String.class, phrase, wholeWord);
         } else {
             unitsString = restTemplate.getForObject("http://localhost:8080/search?phrase={phrase}", String.class, phrase);
+            System.out.println();
         }
         try {
             parsingResponse = mapper.readValue(unitsString, new TypeReference<ArrayList<Jednostka>>() {
