@@ -1,6 +1,9 @@
 package medicwebapplication;
 
 import com.vaadin.data.Property;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.ui.*;
 import consumingrestobjects.Jednostka;
 import consumingrestservice.SearchPhrase;
@@ -37,19 +40,20 @@ public class UnitDataTableCreate {
             SearchPhrase.deleteNoResult(layout);
         }
         //todo info koniec wyszukiwania
-        //current.setValue("Selected: " + table.getValue()); -184
-
+        Panel shortOut = new Panel();
         final Table table = new Table("Wyniki wyszukiwania");
         table.setSelectable(true);
         table.setImmediate(true);
+        table.removeAllActionHandlers();
+
         //todo trivial: height of table's row
-        table.addValueChangeListener(new Property.ValueChangeListener() {
+        table.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                UnitSubWindow sub = new UnitSubWindow(table.getValue(), queryResult);
-                //todo how many windows with the same unit can invoke? HashMap to remember?
+            public void itemClick(ItemClickEvent itemClickEvent) {
+                new UnitSubWindow(table.getValue(), queryResult);
             }
         });
+
         table.addContainerProperty("Nazwa", String.class, null);
         for (Integer i = 0; i < queryResult.size(); i++) {
             table.addItem(new Object[]{queryResult.get(i).getNazwa()}, i);  //todo minor: nazwa jednostki nadrzednej

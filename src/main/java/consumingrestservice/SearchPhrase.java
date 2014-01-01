@@ -67,14 +67,12 @@ public class SearchPhrase {
 
     public static Adres getAdresByID(Integer adresID) {
         RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper mapper = new ObjectMapper();
         Adres stream = restTemplate.getForObject("http://localhost:8080/address?adresID={adresID}", Adres.class, adresID);
         return stream;
     }
 
     public static Jednostka getJednostkaByID(Integer unitID) {
         RestTemplate restTemplate = new RestTemplate();
-        ObjectMapper mapper = new ObjectMapper();
         Jednostka stream = restTemplate.getForObject("http://localhost:8080/overunit?unitID={unitID}", Jednostka.class, unitID);
         return stream;
     }
