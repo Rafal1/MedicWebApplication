@@ -25,7 +25,7 @@ public class Jednostka {
     String specjalizacja3;
     Integer nadrzednaJednostka;
     String podrzedneJednostki;
-    Date dataAktualizacji;
+    String dataAktualizacji;
     String lokalizacja;
 
     public Integer getId() {
@@ -148,11 +148,11 @@ public class Jednostka {
         this.podrzedneJednostki = podrzedneJednostki;
     }
 
-    public Date getDataAktualizacji() {
+    public String getDataAktualizacji() {
         return dataAktualizacji;
     }
 
-    public void setDataAktualizacji(Date dataAktualizacji) {
+    public void setDataAktualizacji(String dataAktualizacji) {
         this.dataAktualizacji = dataAktualizacji;
     }
 

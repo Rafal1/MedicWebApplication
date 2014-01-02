@@ -7,6 +7,7 @@ import consumingrestobjects.Adres;
 import consumingrestobjects.Jednostka;
 import consumingrestservice.SearchPhrase;
 
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -15,10 +16,8 @@ import java.util.ArrayList;
 @Theme("mytheme")
 public class UnitSubWindow extends Window {
     public UnitSubWindow(Object nr, ArrayList<Jednostka> queryResponse) {
-        //todo if subWindow initialized - don't do it again (for the smae Unit)
         super("Widok Jednostki"); // Set window caption
         center();
-        //todo test na numer Junit
         if (nr == null) {
             return;
         }
@@ -28,11 +27,11 @@ public class UnitSubWindow extends Window {
     }
 
     private void composeUnitElements(Integer nr, ArrayList<Jednostka> queryResponse) {
-        Jednostka unit = queryResponse.get(nr); //nr - like array's subscript
+        Jednostka unit = queryResponse.get(nr); //nr - like an array's subscript
         Adres addr = SearchPhrase.getAdresByID(unit.getId());
-        Jednostka overUnit = SearchPhrase.getJednostkaByID(unit.getId());
         String overUnitName = "Brak jednostki nadrzędnej";
-        if (overUnit.getNadrzednaJednostka() != 0) { //there is no row in database's table with 0 index
+        if (unit.getNadrzednaJednostka() != null && unit.getNadrzednaJednostka() > 0) {
+            Jednostka overUnit = SearchPhrase.getJednostkaByID(unit.getNadrzednaJednostka());
             overUnitName = overUnit.getNazwa();
         }
         setWidth("680px");
@@ -81,7 +80,8 @@ public class UnitSubWindow extends Window {
         leftForm.addComponent(unitDopisekInfo);
         Label unitDopisek = new Label(addr.getDopisek());
         leftForm.addComponent(unitDopisek);
-
+//        Date da = unit.getDataAktualizacji();
+//        String dsS = da.toString();
         Label unitUpdateDate = new Label("Data aktualizacji: " + unit.getDataAktualizacji().toString());
         leftForm.addComponent(unitUpdateDate);
         Label unitJednostkaNadrzednaInfo = new Label("Jednostka nadrzędna: ");
@@ -165,7 +165,7 @@ public class UnitSubWindow extends Window {
         return null;
     }
 
-    public  static String buildSpecString(Jednostka unit){
+    public static String buildSpecString(Jednostka unit) {
         StringBuilder specString = new StringBuilder();
         Boolean isSpec1 = !unit.getSpecjalizacja1().isEmpty();
         Boolean isSpec2 = !unit.getSpecjalizacja2().isEmpty();
@@ -176,10 +176,10 @@ public class UnitSubWindow extends Window {
             specString.append(unit.getSpecjalizacja1());
         }
         if (isSpec2) {
-            specString.append("\n\n"+unit.getSpecjalizacja2());
+            specString.append("\n\n" + unit.getSpecjalizacja2());
         }
         if (isSpec3) {
-            specString.append("\n\n"+unit.getSpecjalizacja3());
+            specString.append("\n\n" + unit.getSpecjalizacja3());
         }
         return specString.toString();
     }

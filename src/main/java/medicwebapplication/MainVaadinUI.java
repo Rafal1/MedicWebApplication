@@ -69,14 +69,13 @@ public class MainVaadinUI extends UI {
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                if (property.getValue() != null && !property.getValue().isEmpty()) { //todo is it a proper behaviour for empty string?
+                if (property.getValue() != null && !property.getValue().isEmpty()) {
                     SearchPhrase.search(property.getValue(), layout);
                 }
             }
         });
         searchTools.addComponent(button);
         searchTools.setComponentAlignment(button, Alignment.TOP_CENTER);
-        //todo checkbox for "all word" mode
 
         Label spaceUnderSearch = new Label("");
         spaceUnderSearch.setWidth(null);

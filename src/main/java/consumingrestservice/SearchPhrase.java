@@ -89,7 +89,7 @@ public class SearchPhrase {
         if (!val) {
             if (!checkIfNoResultExists()) {
                 labelResultMessage(layout);
-                //todo maybe special message
+                //todo maybe special message when validation goes wrong
             }
             return;
         }
