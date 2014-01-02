@@ -142,7 +142,8 @@ public class UnitSubWindow extends Window {
         areaDodOpis.setRows(3);
         bottom.addComponent(areaDodOpis);
         TextArea areaSpec = new TextArea("Specjalizacje: ");
-        areaSpec.setValue(unit.getSpecjalizacja1() + "\n\n" + unit.getSpecjalizacja2() + "\n\n" + unit.getSpecjalizacja3());
+        String specString = buildSpecString(unit);
+        areaSpec.setValue(specString.toString());
         areaSpec.setReadOnly(true);
         areaSpec.setWidth("130px");
         areaSpec.setRows(3);
@@ -164,4 +165,22 @@ public class UnitSubWindow extends Window {
         return null;
     }
 
+    public  static String buildSpecString(Jednostka unit){
+        StringBuilder specString = new StringBuilder();
+        Boolean isSpec1 = !unit.getSpecjalizacja1().isEmpty();
+        Boolean isSpec2 = !unit.getSpecjalizacja2().isEmpty();
+        Boolean isSpec3 = !unit.getSpecjalizacja3().isEmpty();
+        //specjalizacje musza byc wypełniane po kolei (a nie ze tylko 2 lub 3)
+        //todo czy jest sens uodparniac kod na niepoprawne wypełnienie danych (np. podana 3 spec, bez 1 i 2)
+        if (isSpec1) {
+            specString.append(unit.getSpecjalizacja1());
+        }
+        if (isSpec2) {
+            specString.append("\n\n"+unit.getSpecjalizacja2());
+        }
+        if (isSpec3) {
+            specString.append("\n\n"+unit.getSpecjalizacja3());
+        }
+        return specString.toString();
+    }
 }
