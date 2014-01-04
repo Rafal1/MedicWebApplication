@@ -4,7 +4,7 @@ package medicwebapplication;
  * @author Rafal Zawadzki
  */
 public final class Validation {
-    private static Character[] specialChars = new Character[]{'!', '#', '?', '<', '>', '=', '(', ')', '{', '}', '[', ']'};
+    private static Character[] specialChars = new Character[]{'!', '#', '?', '<', '>', '=', '(', ')', '{', '}', '[', ']', '%'};
     private static Integer lengthMinLimit = 2;
     private static Integer lengthMaxLimit = 80;
 

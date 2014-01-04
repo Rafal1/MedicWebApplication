@@ -1,13 +1,11 @@
 package medicwebapplication;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.*;
 import consumingrestobjects.Adres;
 import consumingrestobjects.Jednostka;
 import consumingrestservice.SearchPhrase;
 
-import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -41,11 +39,9 @@ public class UnitSubWindow extends Window {
         content.setMargin(true);
         setContent(content);
 
-        //todo bind CSS style
         Label unitName = new Label(unit.getNazwa());
-        unitName.setStyleName("unitDesc");
-        unitName.setId("unitDesc");
-        unitName.setHeight("2em");
+        unitName.setStyleName("h2");
+        unitName.setId("unitdesc");
         content.addComponent(unitName);
         Label breakSpHeader = new Label();
         breakSpHeader.setHeight("5px");

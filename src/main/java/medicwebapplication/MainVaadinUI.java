@@ -34,8 +34,7 @@ public class MainVaadinUI extends UI {
         Label label = new Label("Wyszukiwarka Medic");
         label.setWidth(null);
         label.setStyleName("h1");
-        label.setHeight("1em");
-        label.setId("opisLabel");
+        label.setId("opislabel");
         layout.addComponent(label);
         layout.setComponentAlignment(label, Alignment.TOP_CENTER);
 

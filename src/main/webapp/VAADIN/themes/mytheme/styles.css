@@ -5006,7 +5006,7 @@ body .mytheme.v-app .v-app-loading {
 	line-height: 30px;
 	font-weight: bold;
 	color: #44698b;
-    letter-spacing: -0.02em;
+	letter-spacing: -0.02em;
 	text-shadow: #fff 0 -1px 1px;
 }
 
@@ -7008,31 +7008,14 @@ body .mytheme.v-app .v-app-loading {
 	background-image: url(../reindeer/window/img/black/content-bg.png);/** sprite-ref: black-verticals; sprite-alignment: repeat */
 }
 
-#opisLabel
+#unitdesc
 {
-font-size: xx-large;
-color:red;
-}
-
-textarea.v-textarea {
-    font-size: large;
-}
-
-.unitDesc
-{
-    font-size: xx-large;
-    font-weight: bold;
+    font: bold;
     color:dodgerblue;
 }
 
-/* Table rows contain three-row TextField components.
- doesn't work for now
- */
-.mytheme .v-table-components-inside .v-table-cell-content {
-height: 60px;
-}
-
-.v-label-stylename {
-    font-size: 24px;
-    line-height: normal;
+#opislabel
+{
+    font: bold;
+    color: red;
 }
