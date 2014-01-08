@@ -6,10 +6,10 @@ package consumingrestobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.Date;
+import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Jednostka {
+public class Jednostka implements Serializable {
     Integer id;
    Integer adres;
     String nazwa;
